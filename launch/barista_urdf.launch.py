@@ -80,6 +80,20 @@ def generate_launch_description():
         output="screen",
     )
 
+    # joint_state_publisher_gui = Node(
+    #     package="joint_state_publisher_gui",
+    #     executable="joint_state_publisher_gui",
+    #     name="joint_state_publisher_gui",
+    #     output="screen",
+    # )
+    #
+    # tf_tree = Node(
+    #     package="rqt_tf_tree",
+    #     executable="rqt_tf_tree",
+    #     name="rqt_tf_tree",
+    #     output="screen",
+    # )
+
     return LaunchDescription([
         DeclareLaunchArgument("model_name", default_value="my_robot"),
         DeclareLaunchArgument("x", default_value="0.0"),
@@ -90,4 +104,6 @@ def generate_launch_description():
         robot_state_publisher,
         rviz,
         spawn_robot,
+        # joint_state_publisher_gui,
+        # tf_tree
     ])

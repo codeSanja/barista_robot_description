@@ -10,7 +10,7 @@ def generate_launch_description():
 
     ####### DATA INPUT ##########
     urdf_file = 'barista_robot_model.urdf'
-    #xacro_file = "urdfbot.xacro"
+    #xacro_file = "box_bot.xacro"
     package_description = "barista_robot_description"
 
     ####### DATA INPUT END ##########
@@ -24,6 +24,7 @@ def generate_launch_description():
         executable='robot_state_publisher',
         name='robot_state_publisher_node',
         emulate_tty=True,
+        # parameters=[{'use_sim_time': True, 'robot_description': Command(['xacro ', robot_desc_path])}],
         parameters=[{'use_sim_time': False, 'robot_description': ParameterValue(Command(['xacro ', robot_desc_path]), value_type=str)}],
         output="screen"
     )

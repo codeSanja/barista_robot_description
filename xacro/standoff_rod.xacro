@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- width is the rod diameter: the drawing specifies 20 mm. -->
+    <xacro:macro name="standoff_rod" params="name x y z width length">
+        <link name="${name}_link">
+            <visual>
+                <geometry>
+                    <cylinder radius="${width / 2}" length="${length}"/>
+                </geometry>
+                <material name="color_dark_teal_green"/>
+            </visual>
+            <collision>
+                <geometry>
+                    <cylinder radius="${width / 2}" length="${length}"/>
+                </geometry>
+            </collision>
+        </link>
+        <joint name="${name}_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="${name}_link"/>
+            <origin xyz="${x} ${y} ${z}" rpy="0 0 0"/>
+        </joint>
+    </xacro:macro>
+</robot>

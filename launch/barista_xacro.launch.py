@@ -1,0 +1,114 @@
+import os
+
+from ament_index_python.packages import get_package_prefix, get_package_share_directory
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import Command, LaunchConfiguration
+from launch_ros.actions import Node
+from launch_ros.parameter_descriptions import ParameterValue
+
+
+def generate_launch_description():
+    package_name = "barista_robot_description"
+    package_share = get_package_share_directory(package_name)
+    gz_sim_share = get_package_share_directory("ros_gz_sim")
+
+    # Keep the resource paths from the original working launch file.
+    box_bot_share = get_package_share_directory("my_box_bot_description")
+    resource_paths = [
+        os.path.join(get_package_prefix(package_name), "share"),
+        os.path.join(get_package_prefix("my_box_bot_description"), "share"),
+        os.path.join(package_share, "models"),
+        os.path.join(box_bot_share, "meshes"),
+    ]
+    existing_paths = os.environ.get("GZ_SIM_RESOURCE_PATH", "")
+    os.environ["GZ_SIM_RESOURCE_PATH"] = os.pathsep.join(
+        dict.fromkeys(path for path in [existing_paths, *resource_paths] if path)
+    )
+
+    world_path = os.path.join(package_share, "worlds", "barrista_empty.world")
+    gazebo = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(gz_sim_share, "launch", "gz_sim.launch.py")
+        ),
+        launch_arguments={"gz_args": f"-r {world_path}"}.items(),
+    )
+
+    xacro_path = os.path.join(
+        package_share, "xacro", "barista_robot_model.urdf.xacro"
+    )
+    robot_description = ParameterValue(
+        Command([
+            "xacro ",
+            xacro_path,
+            " include_laser:=",
+            LaunchConfiguration("include_laser"),
+        ]),
+        value_type=str,
+    )
+
+    robot_state_publisher = Node(
+        package="robot_state_publisher",
+        executable="robot_state_publisher",
+        name="robot_state_publisher_node",
+        parameters=[{
+            "use_sim_time": True,
+            "robot_description": robot_description,
+        }],
+        output="screen",
+    )
+
+    rviz = Node(
+        package="rviz2",
+        executable="rviz2",
+        name="rviz_node",
+        parameters=[{"use_sim_time": True}],
+        arguments=["-d", os.path.join(package_share, "rviz", "urdf_vis.rviz")],
+        output="screen",
+    )
+
+    spawn_robot = Node(
+        package="ros_gz_sim",
+        executable="create",
+        name="my_robot_spawn",
+        arguments=[
+            "-name", LaunchConfiguration("model_name"),
+            "-allow_renaming", "true",
+            "-topic", "robot_description",
+            "-x", LaunchConfiguration("x"),
+            "-y", LaunchConfiguration("y"),
+            "-z", LaunchConfiguration("z"),
+            "-Y", LaunchConfiguration("yaw"),
+        ],
+        output="screen",
+    )
+
+    gz_bridge = Node(
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        name="gz_bridge",
+        arguments=[
+            "/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock",
+            "/cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist",
+            "/tf@tf2_msgs/msg/TFMessage[gz.msgs.Pose_V",
+            "/odom@nav_msgs/msg/Odometry[gz.msgs.Odometry",
+            "/joint_states@sensor_msgs/msg/JointState[gz.msgs.Model",
+            "/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan",
+        ],
+        output="screen",
+    )
+
+    return LaunchDescription([
+        DeclareLaunchArgument("include_laser", default_value="true"),
+        DeclareLaunchArgument("model_name", default_value="my_robot"),
+        DeclareLaunchArgument("x", default_value="0.0"),
+        DeclareLaunchArgument("y", default_value="0.0"),
+        DeclareLaunchArgument("z", default_value="0.2"),
+        DeclareLaunchArgument("yaw", default_value="3.14"),
+        gazebo,
+        robot_state_publisher,
+        rviz,
+        spawn_robot,
+        gz_bridge,
+    ])

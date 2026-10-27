@@ -46,7 +46,7 @@ def generate_launch_description():
         parameters=[
             {
                 # Kept from the original barista_urdf.launch.py.
-                "use_sim_time": False,
+                "use_sim_time": True,
                 "robot_description": ParameterValue(
                     Command(["xacro ", urdf_path]), value_type=str
                 ),
@@ -80,19 +80,19 @@ def generate_launch_description():
         output="screen",
     )
 
-    joint_state_publisher_gui = Node(
-        package="joint_state_publisher_gui",
-        executable="joint_state_publisher_gui",
-        name="joint_state_publisher_gui",
-        output="screen",
-    )
+    # joint_state_publisher_gui = Node(
+    #     package="joint_state_publisher_gui",
+    #     executable="joint_state_publisher_gui",
+    #     name="joint_state_publisher_gui",
+    #     output="screen",
+    # )
 
-    tf_tree = Node(
-        package="rqt_tf_tree",
-        executable="rqt_tf_tree",
-        name="rqt_tf_tree",
-        output="screen",
-    )
+    # tf_tree = Node(
+    #     package="rqt_tf_tree",
+    #     executable="rqt_tf_tree",
+    #     name="rqt_tf_tree",
+    #     output="screen",
+    # )
 
     gz_bridge = Node(
         package="ros_gz_bridge",
@@ -118,7 +118,7 @@ def generate_launch_description():
         robot_state_publisher,
         rviz,
         spawn_robot,
-        joint_state_publisher_gui,
-        tf_tree,
+        # joint_state_publisher_gui,
+        # tf_tree,
         gz_bridge
     ])

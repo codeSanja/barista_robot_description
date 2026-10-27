@@ -104,6 +104,7 @@ def generate_launch_description():
             "/tf" + "@tf2_msgs/msg/TFMessage" + "[gz.msgs.Pose_V",
             "/odom" + "@nav_msgs/msg/Odometry" + "[gz.msgs.Odometry",
             "/joint_states" + "@sensor_msgs/msg/JointState" + "[gz.msgs.Model",
+            "/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan",
             ],
         output="screen",
     )

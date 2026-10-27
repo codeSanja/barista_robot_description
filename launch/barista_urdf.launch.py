@@ -18,12 +18,12 @@ def generate_launch_description():
 
     # Preserve the model / mesh search paths from start_world.launch.py.
     # The my_box_bot_description dependency comes from the original launch file.
-    box_bot_share = get_package_share_directory("my_box_bot_description")
+    # box_bot_share = get_package_share_directory("my_box_bot_description")
     resource_paths = [
         os.path.join(get_package_prefix(package_name), "share"),
-        os.path.join(get_package_prefix("my_box_bot_description"), "share"),
+        # os.path.join(get_package_prefix("my_box_bot_description"), "share"),
         os.path.join(package_share, "models"),
-        os.path.join(box_bot_share, "meshes"),
+        # os.path.join(box_bot_share, "meshes"),
     ]
     existing_paths = os.environ.get("GZ_SIM_RESOURCE_PATH", "")
     os.environ["GZ_SIM_RESOURCE_PATH"] = os.pathsep.join(
@@ -45,7 +45,6 @@ def generate_launch_description():
         name="robot_state_publisher_node",
         parameters=[
             {
-                # Kept from the original barista_urdf.launch.py.
                 "use_sim_time": True,
                 "robot_description": ParameterValue(
                     Command(["xacro ", urdf_path]), value_type=str
@@ -70,7 +69,6 @@ def generate_launch_description():
         name="my_robot_spawn",
         arguments=[
             "-name", LaunchConfiguration("model_name"),
-            "-allow_renaming", "true",
             "-topic", "robot_description",
             "-x", LaunchConfiguration("x"),
             "-y", LaunchConfiguration("y"),

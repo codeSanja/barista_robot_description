@@ -45,7 +45,6 @@ def generate_launch_description():
         name="robot_state_publisher_node",
         parameters=[
             {
-                # Kept from the original barista_urdf.launch.py.
                 "use_sim_time": True,
                 "robot_description": ParameterValue(
                     Command(["xacro ", urdf_path]), value_type=str
@@ -70,7 +69,6 @@ def generate_launch_description():
         name="my_robot_spawn",
         arguments=[
             "-name", LaunchConfiguration("model_name"),
-            "-allow_renaming", "true",
             "-topic", "robot_description",
             "-x", LaunchConfiguration("x"),
             "-y", LaunchConfiguration("y"),

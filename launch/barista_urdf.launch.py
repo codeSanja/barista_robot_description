@@ -94,6 +94,20 @@ def generate_launch_description():
         output="screen",
     )
 
+    gz_bridge = Node(
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        name="gz_bridge",
+        arguments=[
+            "/clock" + "@rosgraph_msgs/msg/Clock" + "[gz.msgs.Clock",
+            "/cmd_vel" + "@geometry_msgs/msg/Twist" + "@gz.msgs.Twist",
+            "/tf" + "@tf2_msgs/msg/TFMessage" + "[gz.msgs.Pose_V",
+            "/odom" + "@nav_msgs/msg/Odometry" + "[gz.msgs.Odometry",
+            "/joint_states" + "@sensor_msgs/msg/JointState" + "[gz.msgs.Model",
+            ],
+        output="screen",
+    )
+
     return LaunchDescription([
         DeclareLaunchArgument("model_name", default_value="my_robot"),
         DeclareLaunchArgument("x", default_value="0.0"),
@@ -105,5 +119,6 @@ def generate_launch_description():
         rviz,
         spawn_robot,
         joint_state_publisher_gui,
-        tf_tree
+        tf_tree,
+        gz_bridge
     ])

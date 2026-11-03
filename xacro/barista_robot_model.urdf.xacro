@@ -50,9 +50,9 @@
     </joint>
 
     <!-- Drive wheels -->
-    <xacro:drive_wheel side="left"  y="-0.13"
+    <xacro:drive_wheel side="left"  y="0.13"
                        radius="${wheel_radius}" width="${wheel_width}" color="green_dark"/>
-    <xacro:drive_wheel side="right" y="0.13"
+    <xacro:drive_wheel side="right" y="-0.13"
                        radius="${wheel_radius}" width="${wheel_width}" color="black"/>
 
     <!-- Caster wheels -->

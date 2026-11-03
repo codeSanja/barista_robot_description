@@ -81,9 +81,17 @@ def generate_launch_description():
         return [robot_state_publisher, spawn, bridge]
 
 
+    clock_bridge = Node(
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        name="clock_bridge",
+        arguments=["/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock"],
+        output="screen",
+    )
 
     return LaunchDescription([
         gazebo,
+        clock_bridge,
         *robot("rick", "1 0 0 1", 0.0, 0.0, 0.0),
         *robot("morty", "0 0 1 1", 1.5, 1.0, 0.0),
     ])

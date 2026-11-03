@@ -31,7 +31,7 @@ def generate_launch_description():
         package_share, "xacro", "barista_robot_model.urdf.xacro"
     )
 
-    def robot(name, color):
+    def robot(name, color, x, y, yaw):
         # Run xacro with this robot's name and color.
         robot_description = ParameterValue(
             Command(f'xacro {xacro_path} robot_name:={name} color:="{color}"'),
@@ -50,12 +50,25 @@ def generate_launch_description():
             output="screen",
         )
 
-        return [robot_state_publisher]
+        spawn = Node(
+            package="ros_gz_sim",
+            executable="create",
+            namespace=name,                              # → /rick/... node name
+            arguments=[
+                "-name", name,                           # Gazebo model name
+                "-topic", f"/{name}/robot_description",  # read THIS robot's URDF
+                "-x", str(x), "-y", str(y), "-z", "0.2",
+                "-Y", str(yaw),
+            ],
+            output="screen",
+        )
+
+        return [robot_state_publisher, spawn]
 
 
 
     return LaunchDescription([
         gazebo,
-        *robot("rick", "1 0 0 1"),
-        *robot("morty", "0 0 1 1"),
+        *robot("rick", "1 0 0 1", 0.0, 0.0, 0.0),
+        *robot("morty", "0 0 1 1", 1.5, 1.0, 0.0),
     ])

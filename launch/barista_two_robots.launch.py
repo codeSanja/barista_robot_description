@@ -78,7 +78,20 @@ def generate_launch_description():
             output="screen",
         )
 
-        return [robot_state_publisher, spawn, bridge]
+        world_to_odom = Node(
+            package="tf2_ros",
+            executable="static_transform_publisher",
+            namespace=name,
+            arguments=[
+                "--x", str(x), "--y", str(y), "--yaw", str(yaw),
+                "--frame-id", "world",
+                "--child-frame-id", f"{name}/odom",
+            ],
+            parameters=[{"use_sim_time": True}],
+            output="screen",
+        )
+
+        return [robot_state_publisher, spawn, bridge, world_to_odom]
 
 
     clock_bridge = Node(
@@ -89,9 +102,19 @@ def generate_launch_description():
         output="screen",
     )
 
+    rviz = Node(
+        package="rviz2",
+        executable="rviz2",
+        name="rviz",
+        arguments=["-d", os.path.join(package_share, "rviz", "urdf_vis_two_robots.rviz")],
+        parameters=[{"use_sim_time": True}],
+        output="screen",
+    )
+
     return LaunchDescription([
         gazebo,
         clock_bridge,
+        rviz,
         *robot("rick", "1 0 0 1", 0.0, 0.0, 0.0),
         *robot("morty", "0 0 1 1", 1.5, 1.0, 0.0),
     ])

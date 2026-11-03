@@ -21,19 +21,8 @@
     <xacro:include filename="cup_holder_tray.xacro"/>
     <xacro:include filename="laser_scanner.xacro"/>
 
-    <!-- Materials from the original working URDF. -->
     <material name="base_body_color"><color rgba="$(arg color)"/></material>
-    <material name="color_8a633a"><color rgba="0.541176 0.388235 0.227451 1"/></material>
-    <material name="deep_teal_green"><color rgba="0.635294 0.141176 0.141176 1"/></material>
-    <material name="color_dark_teal_green"><color rgba="0.137255 0.529412 0.423529 1"/></material>
-    <material name="dark_crimson_red"><color rgba="0.576471 0.062745 0.062745 1"/></material>
-    <material name="vibrant_purple"><color rgba="0.756863 0.054902 0.909804 1"/></material>
-    <material name="red"><color rgba="1.0 0.0 0.0 1"/></material>
-    <material name="green_light"><color rgba="0.0 1.0 0.0 1"/></material>
-    <material name="green_dark"><color rgba="0.0 0.5 0.0 1"/></material>
-    <material name="blue"><color rgba="0.0 0.0 1.0 1"/></material>
-    <material name="black"><color rgba="0.0 0.0 0.0 1"/></material>
-    <material name="white"><color rgba="1.0 1.0 1.0 1"/></material>
+    <material name="gray"><color rgba="0.5 0.5 0.5 1"/></material>
 
     <!-- Main body. -->
     <link name="base_link"/>

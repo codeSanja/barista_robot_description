@@ -6,7 +6,7 @@
                 <geometry>
                     <cylinder radius="${radius}" length="${length}"/>
                 </geometry>
-                <material name="vibrant_purple"/>
+                <material name="base_body_color"/>
             </visual>
             <collision>
                 <geometry>

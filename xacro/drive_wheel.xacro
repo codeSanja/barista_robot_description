@@ -8,7 +8,6 @@
                 <geometry>
                     <cylinder radius="${radius}" length="${width}"/>
                 </geometry>
-                <material name="${color}"/>
             </visual>
             <collision>
                 <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>

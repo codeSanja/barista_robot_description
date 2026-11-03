@@ -7,7 +7,7 @@
                 <geometry>
                     <cylinder radius="${width / 2}" length="${length}"/>
                 </geometry>
-                <material name="color_dark_teal_green"/>
+                <material name="gray"/>
             </visual>
             <collision>
                 <geometry>

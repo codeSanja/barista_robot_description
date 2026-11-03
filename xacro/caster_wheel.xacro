@@ -7,7 +7,6 @@
             <visual>
                 <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
                 <geometry><cylinder length="0.01" radius="0.03"/></geometry>
-                <material name="blue"/>
             </visual>
             <collision>
                 <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
@@ -37,7 +36,7 @@
             <visual>
                 <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
                 <geometry><cylinder length="0.01" radius="0.03"/></geometry>
-                <material name="red"/>
+                <material name="base_body_color"/>
             </visual>
             <collision>
                 <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
@@ -67,7 +66,6 @@
             <visual>
                 <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
                 <geometry><sphere radius="0.03"/></geometry>
-                <material name="${pitch_color}"/>
             </visual>
             <collision>
                 <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>

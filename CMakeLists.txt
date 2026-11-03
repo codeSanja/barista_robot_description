@@ -30,6 +30,7 @@ install(
   meshes
   worlds
   xacro
+  config
   DESTINATION
   share/${PROJECT_NAME}/
 )

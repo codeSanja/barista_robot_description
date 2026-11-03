@@ -20,11 +20,12 @@ def generate_launch_description():
     )
 
     world_path = os.path.join(package_share, "worlds", "barrista_empty.world")
+    gui_config = os.path.join(package_share, "config", "gazebo_two_robots.config")
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(gz_sim_share, "launch", "gz_sim.launch.py")
         ),
-        launch_arguments={"gz_args": f"-r {world_path}"}.items(),
+        launch_arguments={"gz_args": f"-r {world_path} --gui-config {gui_config}"}.items(),
     )
 
     xacro_path = os.path.join(

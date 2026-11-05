@@ -18,7 +18,6 @@ def generate_launch_description():
     resource_paths = [
         os.path.join(get_package_prefix(package_name), "share"),
         os.path.join(package_share, "models"),
-        os.path.join(box_bot_share, "meshes"),
     ]
     existing_paths = os.environ.get("GZ_SIM_RESOURCE_PATH", "")
     os.environ["GZ_SIM_RESOURCE_PATH"] = os.pathsep.join(
